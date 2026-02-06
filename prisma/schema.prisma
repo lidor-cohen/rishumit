@@ -1,0 +1,141 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Client {
+  id             String    @id @default(uuid())
+  organizationId String
+  name           String
+  phone          String
+  email          String?
+  invoices       Invoice[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([organizationId])
+}
+
+model Product {
+  id             String     @id @default(uuid())
+  organizationId String
+  name           String
+  price          Decimal    @db.Decimal(10, 2)
+  lineItems      LineItem[]
+
+  @@index([organizationId])
+}
+
+model LineItem {
+  id          String   @id @default(uuid())
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId   String
+  product     Product? @relation(fields: [productId], references: [id])
+  productId   String?
+  description String
+  quantity    Decimal  @db.Decimal(10, 2)
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  sortOrder   Int      @default(0)
+
+  @@index([invoiceId])
+}
+
+model Invoice {
+  id             String        @id @default(uuid())
+  organizationId String
+  client         Client        @relation(fields: [clientId], references: [id])
+  clientId       String
+  lineItems      LineItem[]
+  invoiceNumber  Int
+  status         InvoiceStatus @default(DRAFT)
+  issueDate      DateTime      @default(now())
+  dueDate        DateTime
+  notes          String?
+  subTotal       Decimal       @db.Decimal(10, 2)
+  vatRate        Decimal       @default(18) @db.Decimal(5, 2)
+  vatAmount      Decimal       @db.Decimal(10, 2)
+  total          Decimal       @db.Decimal(10, 2)
+  createdById    String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([organizationId, invoiceNumber])
+  @@index([organizationId])
+  @@index([clientId])
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
