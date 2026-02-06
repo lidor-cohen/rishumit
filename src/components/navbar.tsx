@@ -14,7 +14,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="max-w-7xl mx-auto sticky top-0 z-50">
+    <header className="max-w-7xl mx-auto sticky top-8 z-50">
       <nav className="container mx-auto my-8 p-6 flex justify-between items-center shadow-lg text-secondary-foreground bg-card rounded-3xl">
         <div className="flex items-center gap-8">
           <div className="flex gap-8 items-center ">

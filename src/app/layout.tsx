@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Open_Sans, Noto_Serif_Hebrew, IBM_Plex_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 const openSans = Open_Sans({
   subsets: ["latin", "hebrew"],
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
