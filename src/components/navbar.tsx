@@ -4,9 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/lib/auth/auth-client";
 
 const Navbar = () => {
   const currentPath = usePathname();
+  const { data: session } = useSession();
+
   const navItems = [
     { path: "/", label: "דף הבית" },
     { path: "/pricing", label: "מחירון" },
@@ -14,7 +17,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="max-w-7xl mx-auto sticky top-8 z-50">
+    <header className="w-full max-w-7xl mx-auto sticky top-2 z-50">
       <nav className="container mx-auto my-8 p-6 flex justify-between items-center shadow-lg text-secondary-foreground bg-card rounded-3xl">
         <div className="flex items-center gap-8">
           <div className="flex gap-8 items-center ">
@@ -33,9 +36,20 @@ const Navbar = () => {
           </div>
         </div>
         <div>
-          <Link href="/dashboard">
-            <Button className="font-semibold">כניסה למערכת</Button>
-          </Link>
+          {session?.user ? (
+            <Link href="/dashboard">
+              <Button className="font-semibold">כניסה למערכת</Button>
+            </Link>
+          ) : (
+            <div className="flex gap-4">
+              <Link href="/auth/login">
+                <Button variant="ghost">התחברות</Button>
+              </Link>
+              <Link href="/auth/sign-up">
+                <Button>הרשמה</Button>
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </header>

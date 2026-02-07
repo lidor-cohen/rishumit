@@ -3,6 +3,7 @@ import "./globals.css";
 import { Open_Sans, Noto_Serif_Hebrew, IBM_Plex_Mono } from "next/font/google";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/sonner";
 
 const openSans = Open_Sans({
   subsets: ["latin", "hebrew"],
@@ -33,11 +34,10 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body
-        className={`${openSans.variable} ${notoSerif.variable} ${ibmPlex.variable} antialiased`}
+        className={`${openSans.variable} ${notoSerif.variable} ${ibmPlex.variable} antialiased min-h-screen`}
       >
-        <Navbar />
         {children}
-        <Footer />
+        <Toaster />
       </body>
     </html>
   );

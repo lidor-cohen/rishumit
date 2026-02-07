@@ -11,7 +11,7 @@ const links = [
 
 const Footer = () => {
   return (
-    <footer className="bg-primary w-full rounded-t-2xl">
+    <footer className="relative bottom-0 bg-primary w-full rounded-t-2xl">
       <div className="container max-w-7xl mx-auto">
         <div className="flex items-center gap-24 p-8">
           <div className="flex flex-col gap-4 max-w-md">
