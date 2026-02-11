@@ -66,7 +66,7 @@ const LoginComponent = () => {
                 setFormData({ ...formData, email: e.target.value })
               }
               placeholder="example@gmail.com"
-              className="placeholder:text-secondary-foreground"
+              className="placeholder:text-secondary-foreground/50"
               required
             />
           </Field>

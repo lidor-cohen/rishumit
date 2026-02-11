@@ -64,7 +64,7 @@ const SignUpComponent = () => {
                 setFormData({ ...formData, name: e.target.value })
               }
               placeholder="הקלד את השם המלא שלך"
-              className="placeholder:text-secondary-foreground"
+              className="placeholder:text-secondary-foreground/50"
               required
             />
           </Field>
@@ -79,7 +79,7 @@ const SignUpComponent = () => {
                 setFormData({ ...formData, email: e.target.value })
               }
               placeholder="example@gmail.com"
-              className="placeholder:text-secondary-foreground"
+              className="placeholder:text-secondary-foreground/50"
               required
             />
           </Field>
