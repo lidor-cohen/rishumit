@@ -28,7 +28,7 @@ const AppSidebar = () => {
 
   return (
     <Sidebar
-      className="p-6 text-primary-foreground"
+      className="py-6 text-primary-foreground"
       side="right"
       variant="inset"
       dir="rtl"
@@ -37,7 +37,9 @@ const AppSidebar = () => {
       <SidebarHeader>
         <SidebarMenu className="space-y-8">
           <SidebarMenuItem className="mx-auto pb-2 border-b-2 border-primary">
-            <Image src="/next.svg" alt="logo" width={100} height={150} />
+            <Link href="/">
+              <Image src="/next.svg" alt="logo" width={100} height={150} />
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

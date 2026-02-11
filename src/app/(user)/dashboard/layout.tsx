@@ -14,10 +14,10 @@ const DashboardLayout = ({
   return (
     <SidebarProvider className="p-2">
       <AppSidebar />
-      <SidebarInset className="bg-muted/50 m-2!">
-        <header className="p-4">
+      <SidebarInset className="bg-muted/50 m-2! min-h-[calc(100vh-2rem)] flex flex-col">
+        <div className="p-4">
           <SidebarTrigger />
-        </header>
+        </div>
         {children}
       </SidebarInset>
     </SidebarProvider>
