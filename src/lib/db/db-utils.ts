@@ -7,3 +7,7 @@ export const getClients = () => {
 export const getInvoices = () => {
   return prisma.invoice.findMany();
 };
+
+export const getProducts = () => {
+  return prisma.product.findMany();
+};

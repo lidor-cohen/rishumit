@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Newspaper, User2, Users2 } from "lucide-react";
+import { Newspaper, ShoppingCart, User2, Users2 } from "lucide-react";
 import Image from "next/image";
 import { useSession } from "@/lib/auth/auth-client";
 import { usePathname } from "next/navigation";
@@ -24,14 +24,13 @@ const AppSidebar = () => {
   const sidebarItems = [
     { name: "לקוחות", path: "/dashboard/clients", icon: Users2 },
     { name: "חשבוניות", path: "/dashboard/invoices", icon: Newspaper },
+    { name: "מוצרים", path: "/dashboard/products", icon: ShoppingCart },
   ];
 
   return (
     <Sidebar
       className="py-6 text-primary-foreground"
-      side="right"
       variant="inset"
-      dir="rtl"
       collapsible="icon"
     >
       <SidebarHeader>

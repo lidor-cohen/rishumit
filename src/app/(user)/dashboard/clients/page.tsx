@@ -1,15 +1,7 @@
 import React from "react";
 import { getClients } from "@/lib/db/db-utils";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
-import { Button } from "@/components/ui/button";
 import { Users2 } from "lucide-react";
+import EmptySection from "@/components/dashboard/empty-section";
 
 const Page = async () => {
   const clients = await getClients();
@@ -21,21 +13,14 @@ const Page = async () => {
         {clients.length > 0 ? (
           <h2></h2>
         ) : (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Users2 />
-              </EmptyMedia>
-              <EmptyTitle>עוד אין לך לקוחות</EmptyTitle>
-              <EmptyDescription>
-                עדיין לא הוספת אף לקוח! הוסף עכשיו לקוחות לעסק שלך על מנת להתחיל
-                ליצור מסמכים.
-              </EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent className="flex-row justify-center gap-2">
-              <Button>צור לקוח חדש</Button>
-            </EmptyContent>
-          </Empty>
+          <EmptySection
+            name="clients"
+            title="עוד אין לך לקוחות"
+            description="עדיין לא הוספת אף לקוח! הוסף עכשיו לקוחות לעסק שלך על מנת להתחיל
+                ליצור מסמכים."
+            buttonText="צור לקוח חדש"
+            Icon={Users2}
+          />
         )}
       </div>
     </section>

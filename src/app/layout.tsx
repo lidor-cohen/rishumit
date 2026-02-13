@@ -4,6 +4,7 @@ import { Open_Sans, Noto_Serif_Hebrew, IBM_Plex_Mono } from "next/font/google";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { DirectionProvider } from "@/components/ui/direction";
 
 const openSans = Open_Sans({
   subsets: ["latin", "hebrew"],
@@ -36,7 +37,7 @@ export default function RootLayout({
       <body
         className={`${openSans.variable} ${notoSerif.variable} ${ibmPlex.variable} antialiased min-h-screen`}
       >
-        {children}
+        <DirectionProvider dir="rtl">{children}</DirectionProvider>
         <Toaster />
       </body>
     </html>
