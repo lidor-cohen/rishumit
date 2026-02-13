@@ -13,7 +13,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const NewInvoiceDialog = () => {
+const NewInvoiceDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
   const handleSubmit = (evt: React.SubmitEvent) => {
     evt.preventDefault();
   };

@@ -31,7 +31,7 @@ const INITIAL_FORM_DATA = {
   productPrice: 0,
 };
 
-const NewProductDialog = () => {
+const NewProductDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [formData, setFormData] =
     React.useState<FormDataProps>(INITIAL_FORM_DATA);
   const handleSubmit = (evt: React.SubmitEvent) => {

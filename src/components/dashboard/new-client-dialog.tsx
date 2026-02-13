@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { checkIsraeliId } from "@/lib/utils";
 import { isValidPhoneNumber } from "libphonenumber-js";
+import { toast } from "sonner";
+import { createClient } from "@/lib/db/clients";
 
 const FormDataValidator = z.object({
   name: z.string().min(2, { error: "שם הלקוח חייב להיות לפחות בעל 2 תווים" }),
@@ -37,12 +39,35 @@ const INITIAL_FORM_DATA = {
   phone: "",
 };
 
-const NewClientDialog = () => {
+const NewClientDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [formData, setFormData] =
     React.useState<FormDataProps>(INITIAL_FORM_DATA);
-  const handleSubmit = (evt: React.SubmitEvent) => {
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleSubmit = async (evt: React.SubmitEvent) => {
     evt.preventDefault();
+    setIsLoading(true);
+
+    const parsed = FormDataValidator.safeParse(formData);
+    if (parsed.error) {
+      toast.error(Object.values(parsed.error.flatten().fieldErrors).join(", "));
+      setIsLoading(false);
+      return null;
+    }
+
+    const data = await createClient(formData);
+    if (data.errorMessage) {
+      toast.error(data.errorMessage);
+      setIsLoading(false);
+      return null;
+    }
+
+    toast.success("לקוח נוצר בהצלחה");
+    setIsLoading(false);
+    setFormData(INITIAL_FORM_DATA);
+    onSuccess?.();
   };
+
   return (
     <DialogContent className="max-w-md">
       <DialogHeader>
@@ -61,6 +86,11 @@ const NewClientDialog = () => {
                 name="name"
                 placeholder="הקלד את שם הלקוח"
                 className="placeholder:text-muted-foreground/50"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                required
               />
             </Field>
             <Field>
@@ -73,6 +103,11 @@ const NewClientDialog = () => {
                 inputMode="numeric"
                 placeholder="תעודת הזהות או מספר העוסק"
                 className="placeholder:text-muted-foreground/50"
+                value={formData.taxId}
+                onChange={(e) =>
+                  setFormData({ ...formData, taxId: e.target.value })
+                }
+                required
               />
             </Field>
           </div>
@@ -84,6 +119,11 @@ const NewClientDialog = () => {
               type="email"
               placeholder="example@gmail.com"
               className="placeholder:text-muted-foreground/50"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              required
             />
           </Field>
           <Field>
@@ -94,14 +134,23 @@ const NewClientDialog = () => {
               placeholder="054-1234567"
               type="tel"
               className="placeholder:text-muted-foreground/50"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+              required
             />
           </Field>
         </FieldGroup>
         <DialogFooter className="mt-6">
           <DialogClose asChild>
-            <Button variant="outline">בטל</Button>
+            <Button disabled={isLoading} variant="outline">
+              בטל
+            </Button>
           </DialogClose>
-          <Button type="submit">שמור לקוח</Button>
+          <Button disabled={isLoading} type="submit">
+            שמור לקוח
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>
